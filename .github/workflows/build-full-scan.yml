@@ -59,7 +59,7 @@ jobs:
 
 
     process:
-      if: ${{ needs.scan.output.report_id }}
+      if: ${{ needs.scan.outputs.report_id }}
       runs-on: ubuntu-latest
       environment:
         name: nowsecure-env
