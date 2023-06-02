@@ -69,6 +69,16 @@ jobs:
           name: nowsecure-env
         # The above stage we introduced.
         needs: scan
+        
+        # permission needed for upload-sarif@v2
+        permissions:
+          # required for all workflows
+          security-events: write
+
+        # only required for workflows in private repositories
+          actions: read
+          contents: read
+      
         steps:
           - name: Checkout repository
             uses: actions/checkout@v2
@@ -90,7 +100,7 @@ jobs:
               retention-days: 14
 
           - name: Upload SARIF file
-            uses: github/codeql-action/upload-sarif@v1
+            uses: github/codeql-action/upload-sarif@v2
             with:
               sarif_file: NowSecure.sarif
 
