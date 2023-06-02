@@ -34,3 +34,57 @@ jobs:
             name: app
             path: app/build/outputs/apk/debug/app-debug.apk
             retention-days: 3
+
+    scan:
+      runs-on: ubuntu-latest
+      outputs:
+        report_id: ${{ steps.upload.outputs.report_id }}
+      needs: build
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: Download application artifact
+          uses: actions/download-artifact@v2
+          with:
+            name: app
+
+        - id: upload
+          name: NowSecure upload app
+          uses: nowsecure/nowsecure-action/upload-app@v3
+          with:
+            platform_token: ${{ secrets.NS_TOKEN }}
+            app_file: "app-debug.apk"
+            group_id: "40f0f525-856d-4879-a694-4a8b0ee1d9dc"
+
+
+    process:
+      if: ${{ needs.scan.output.report_id }}
+      runs-on: ubuntu-latest
+      environment:
+        name: nowsecure-env
+      needs: scan
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+
+        - name: NowSecure process report
+          uses: nowsecure/nowsecure-action/convert-sarif@v3
+          timeout-minutes: 30
+          with:
+            platform_token: ${{ secrets.NS_TOKEN }}
+            report_id: ${{ needs.scan.outputs.report_id }}
+            group_id: "40f0f525-856d-4879-a694-4a8b0ee1d9dc"
+
+        - name: Upload SARIF report
+          uses: github/codeql-action/upload-sarif@v1
+          with:
+            sarif_file: nowsecure.sarif
+
+        - name: Save SARIF File
+          uses: actions/upload-artifact@v2
+          with:
+            name: NowSecure SARIF
+            path: nowsecure.sarif
+            retention-days: 3
+
