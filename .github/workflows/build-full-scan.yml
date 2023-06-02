@@ -62,7 +62,7 @@ jobs:
             # TODO: Replace the Group ID.
             group_id: "40f0f525-856d-4879-a694-4a8b0ee1d9dc"
             
-     process:
+    process:
         if: ${{ needs.scan.outputs.report_id }}
         runs-on: ubuntu-latest
         environment:
@@ -82,15 +82,15 @@ jobs:
               # TODO: Replace the Group ID.
               group_id: "40f0f525-856d-4879-a694-4a8b0ee1d9dc"
           
-         - name: Save SARIF File
-           uses: actions/upload-artifact@v2
-           with:
-             name: NowSecure SARIF
-             path: NowSecure.sarif
-             retention-days: 14
+          - name: Save SARIF File
+            uses: actions/upload-artifact@v2
+            with:
+              name: NowSecure SARIF
+              path: NowSecure.sarif
+              retention-days: 14
 
-         - name: Upload SARIF file
-           uses: github/codeql-action/upload-sarif@v1
-           with:
-             sarif_file: NowSecure.sarif
+          - name: Upload SARIF file
+            uses: github/codeql-action/upload-sarif@v1
+            with:
+              sarif_file: NowSecure.sarif
 
