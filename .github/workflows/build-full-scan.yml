@@ -3,12 +3,11 @@ name: "Build and full scan"
 on:
   pull_request:
     branches:
-      - [main]
+       [main]
   release:
     types: [published]
   workflow_dispatch:
-    branches:
-      - [main]
+    branches: [main]
 
   jobs:
     build:
