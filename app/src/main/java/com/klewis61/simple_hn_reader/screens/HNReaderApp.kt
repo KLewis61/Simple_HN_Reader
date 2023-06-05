@@ -25,12 +25,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.klewis61.simple_hn_reader.Destination
+import com.klewis61.simple_hn_reader.viewModel.HomeScreenViewModel
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HNReaderApp(navController: NavHostController) {
+fun HNReaderApp(navController: NavHostController, viewModel: HomeScreenViewModel) {
 
     Scaffold(
         topBar = {
@@ -88,10 +89,16 @@ fun HNReaderApp(navController: NavHostController) {
     )
     {
         NavHost(navController = navController, startDestination = Destination.Home.route) {
-            composable(Destination.Home.route) { HomeScreen() }
-            composable(Destination.Favorites.route) { FavoritesScreen() }
-            composable(Destination.Search.route) { SearchScreen() }
-            composable(Destination.User.route) { UserScreen() }
+            composable(Destination.Home.route) {
+                HomeScreen(
+                    navController,
+                    homeScreenUiState = viewModel.homeScreenUiState,
+                    retryAction = viewModel::getTopStories
+                )
+            }
+            composable(Destination.Favorites.route) { FavoritesScreen(navController) }
+            composable(Destination.Search.route) { SearchScreen(navController) }
+            composable(Destination.User.route) { UserScreen(navController) }
         }
     }
 }
