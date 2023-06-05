@@ -34,6 +34,8 @@ class HomeScreenViewModel : ViewModel() {
                 )
             }
             catch(e: Exception){
+                //log error to console
+                println(e)
                 HomeScreenUiState.Error
             }
         }
