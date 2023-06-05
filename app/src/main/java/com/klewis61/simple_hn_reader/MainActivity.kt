@@ -14,10 +14,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.klewis61.simple_hn_reader.screens.HNReaderApp
 import com.klewis61.simple_hn_reader.ui.theme.Simple_HN_ReaderTheme
+import com.klewis61.simple_hn_reader.viewModel.HomeScreenViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val viewModel = HomeScreenViewModel()
+
         setContent {
             Simple_HN_ReaderTheme {
                 // A surface container using the 'background' color from the theme
@@ -27,25 +30,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
 
-                    HNReaderApp(navController = navController)
+                    HNReaderApp(navController = navController, viewModel = viewModel)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Simple_HN_ReaderTheme {
-        Greeting("Android")
     }
 }
