@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import com.klewis61.simple_hn_reader.screens.HNReaderApp
 import com.klewis61.simple_hn_reader.ui.theme.Simple_HN_ReaderTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +25,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    val navController = rememberNavController()
+
+                    HNReaderApp(navController = navController)
                 }
             }
         }
